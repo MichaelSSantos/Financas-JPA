@@ -1,0 +1,37 @@
+<persistence 
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	
+	<!-- Unidade de persistência do MySQL com o schema financas -->
+	<persistence-unit name="mysql_financas">
+
+		<!-- Definição da implementação de persistência (Hibernate) -->
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<!-- Entidades que farão uso desta unidade de persistência -->
+		<class>financas.modelo.Conta</class>
+		<class>financas.modelo.Movimentacao</class>
+		<class>financas.modelo.Cliente</class>
+		<class>financas.modelo.Categoria</class>
+
+		<!-- Propriedades JDBC -->
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/financas" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="ms1002" />
+			<!-- Para que o Hibernate reconheça o SQL específico do MySQL -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<!-- update: Adiciona tabelas e/ou atributos no banco, mas não irá apagar caso seja excluído do projeto. -->
+			<!-- create: Cria as tabelas e apaga os dados anteriores. -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<!-- Exibe a query no console -->
+			<property name="hibernate.show_sql" value="true" />
+			<!-- FOrmata a query -->
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+		
+	</persistence-unit>
+	
+</persistence>
