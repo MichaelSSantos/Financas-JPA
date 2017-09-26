@@ -1,6 +1,9 @@
 package financas.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import financas.modelo.Conta;
 
@@ -39,4 +42,72 @@ public class ContaDao {
 		return conta;
 	}
 
+	public void update(Conta conta) {
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		Conta tmp = em.find(Conta.class, conta.getId());
+		tmp.setAgencia(conta.getAgencia());
+		tmp.setNumero(conta.getNumero());
+		tmp.setBanco(conta.getBanco());
+		tmp.setTitular(conta.getTitular());
+		
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+	
+	public void remove(Conta conta) {
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		em.remove(em.find(Conta.class, conta.getId()));
+		
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public List<Conta> findAll() {
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		String jpql = "select c from Conta c";
+		Query query = em.createQuery(jpql);
+		List<Conta> contas = query.getResultList();
+		
+		em.getTransaction().commit();
+		em.close();
+		return contas;
+	}
+	
+	public List<Conta> findByParameter(Conta conta){
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		String jpql = "select c from Conta c where c.agencia = :pAgencia";
+		Query query = em.createQuery(jpql);
+		query.setParameter("pAgencia", conta.getAgencia());
+		List<Conta> contas = query.getResultList();
+		
+		em.getTransaction().commit();
+		em.close();
+		return contas;
+	}
+
+	public static void main(String[] args) {
+		ContaDao contaDao = new ContaDao();
+	
+		Conta conta = new Conta();
+		conta.setAgencia("112");
+		
+		for (Conta c : contaDao.findByParameter(conta)) {
+			System.out.println(c.toString());
+		}
+		
+	}
+	
 }

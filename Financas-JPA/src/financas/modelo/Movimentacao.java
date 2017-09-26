@@ -1,6 +1,7 @@
 package financas.modelo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -45,6 +46,10 @@ public class Movimentacao {
 	//n .. n
 	@ManyToMany
 	private List<Categoria> categorias;
+	
+	public Movimentacao() {
+		this.categorias = new ArrayList<Categoria>();
+	}
 
 	@Override
 	public String toString() {
