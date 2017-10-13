@@ -1,9 +1,12 @@
 package financas.modelo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 /**
  * @Id// Chave primária 
 	// Gera a chave primária automaticamente. A strategy define se é por auto-incremento ou sequence.
@@ -22,7 +25,15 @@ public class Conta {
 	private String numero;
 	private String banco;
 	private String agencia;
-
+	
+	//mappedBy: Indica que já houve o mapeamento no atributo conta 
+	//na classe Movimentacao. Isso evita que uma nova tabela de 
+	//relacionamento seja criada.
+	//Apenas como um espelho (bidirecional) evitando que 
+	//crie duas vezes o relacionamento no banco.
+	@OneToMany(mappedBy="conta")
+	private List<Movimentacao> movimentacoes;
+	
 	@Override
 	public String toString() {
 		return "Conta [id=" + id + ", titular=" + titular + ", numero=" + numero + ", banco=" + banco + ", agencia="
@@ -69,4 +80,12 @@ public class Conta {
 		this.agencia = agencia;
 	}
 
+	public List<Movimentacao> getMovimentacoes() {
+		return movimentacoes;
+	}
+
+	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
+	}
+	
 }

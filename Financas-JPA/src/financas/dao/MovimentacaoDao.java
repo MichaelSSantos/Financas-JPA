@@ -1,6 +1,5 @@
 package financas.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -31,6 +30,17 @@ public class MovimentacaoDao {
 		em.close();
 		
 		return movimentacoes;
+	}
+	
+	public Movimentacao findById(Integer id) {
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		Movimentacao movimentacao = em.find(Movimentacao.class, id);
+
+		em.close();
+		return movimentacao;
 	}
 	
 	public static void main(String[] args) {
