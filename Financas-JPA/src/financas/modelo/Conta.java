@@ -3,6 +3,7 @@ package financas.modelo;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,14 @@ public class Conta {
 	//relacionamento seja criada.
 	//Apenas como um espelho (bidirecional) evitando que 
 	//crie duas vezes o relacionamento no banco.
-	@OneToMany(mappedBy="conta")
+	/*
+	 * fetch=FetchType.EAGER
+	 * Permite que qualquer consulta em Conta 
+	 * retorne todas as movimentações desta.
+	 * Caso contrário, ao tentar acessar movimentações de conta, 
+	 * o java lancará uma TestaLazyInitializationException
+	 */
+	@OneToMany(mappedBy="conta", fetch=FetchType.EAGER)
 	private List<Movimentacao> movimentacoes;
 	
 	@Override

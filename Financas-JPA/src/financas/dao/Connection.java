@@ -5,7 +5,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class Connection {
-
+	
+	public static final String FINANCAS = "mysql_financas"; 
+	
 	private static EntityManagerFactory emf;
 	
 	public static EntityManager geEntityManager(String persistenceUnitName) {
