@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import financas.modelo.Conta;
 
@@ -83,7 +84,8 @@ public class ContaDao {
 		return contas;
 	}
 	
-	public List<Conta> findByParameter(Conta conta){
+	//Sem TypedQuery e sem NamedQuery
+	public List<Conta> findByAgenciaOld(Conta conta){
 		
 		EntityManager em = Connection.geEntityManager("mysql_financas");
 		em.getTransaction().begin();
@@ -98,13 +100,29 @@ public class ContaDao {
 		return contas;
 	}
 
+	//Com TypedQuery: Especifica o tipo de retorno
+	//Com NamedQuery: Criação de query dentro do bean
+	public List<Conta> findByAgencia(Conta conta){
+		
+		EntityManager em = Connection.geEntityManager("mysql_financas");
+		em.getTransaction().begin();
+		
+		TypedQuery<Conta> query = em.createNamedQuery("findByAgencia", Conta.class);
+		query.setParameter("pAgencia", conta.getAgencia());
+		List<Conta> contas = query.getResultList();
+		
+		em.getTransaction().commit();
+		em.close();
+		return contas;
+	}
+	
 	public static void main(String[] args) {
 		ContaDao contaDao = new ContaDao();
 	
 		Conta conta = new Conta();
 		conta.setAgencia("112");
 		
-		for (Conta c : contaDao.findByParameter(conta)) {
+		for (Conta c : contaDao.findByAgencia(conta)) {
 			System.out.println(c.toString());
 		}
 		

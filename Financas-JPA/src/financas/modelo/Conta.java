@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 /**
  * @Id// Chave primária 
@@ -17,6 +18,7 @@ import javax.persistence.OneToMany;
  */
 
 @Entity // Representa uma tabela/relação/entidade no BD
+@NamedQuery(query="select c from Conta c where c.agencia = :pAgencia", name="findByAgencia")
 public class Conta {
 	
 	@Id// Chave primária 
